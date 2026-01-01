@@ -25,7 +25,7 @@ def rollout():
 
 @njit(parallel=True)
 def monte_carlo(trials):
-    totals = np.zeros(trials, dtype=np.int32)
+    totals = np.zeros(trials, dtype=np.int64)
     for i in prange(trials):
         totals[i] = rollout()
     return totals.sum() / trials
