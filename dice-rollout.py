@@ -1,10 +1,14 @@
 import numpy as np
+from numba import njit, prange
+import time
 
 NUM_DICE = 6
 NUM_SIDES = 6
 TARGET_FACE_VALUE = 6 
-DEFAULT_TRIALS = 10000
+DEFAULT_TRIALS = 1000000
+SEED = None
 
+@njit
 def rollout():
     non_goal_remaining = NUM_DICE
     rolls = 0
@@ -20,15 +24,20 @@ def rollout():
 
     return rolls
 
-
+@njit(parallel=True)
 def monte_carlo(trials=DEFAULT_TRIALS):
     total_rolls = 0
-    for _ in range(trials):
+    for _ in prange(trials):
         total_rolls += rollout()
     average_rolls = total_rolls / trials
     return average_rolls
 
 if __name__ == "__main__":
-    average = monte_carlo()
-    print(f"Average number of rolls to get all sixes: {average}")
+    if SEED is not None:
+        np.random.seed(SEED)
     
+    start_time = time.time()
+    average = monte_carlo()
+    elapsed_time = time.time() - start_time
+    
+    print(f"Calculated average of {average} in {elapsed_time:.4f} seconds")
