@@ -38,4 +38,4 @@ if __name__ == "__main__":
     average = monte_carlo(NUM_TRIALS)
     elapsed_time = time.time() - start_time
     
-    print(f"Calculated average of {average} in {elapsed_time:.4f} seconds")
+    print(f"Average of {average} rolls ({NUM_TRIALS} trials, {elapsed_time:.4f} sec)")
