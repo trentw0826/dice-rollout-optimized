@@ -30,7 +30,10 @@ def monte_carlo(trials):
         totals[i] = rollout()
     return totals.sum() / trials
 
-if __name__ == "__main__":    
+if __name__ == "__main__":
+    rollout()  # Warm-up call for JIT compilation
+    monte_carlo(1)  # Warm-up call for JIT compilation
+
     start_time = time.time()
     average = monte_carlo(NUM_TRIALS)
     elapsed_time = time.time() - start_time
