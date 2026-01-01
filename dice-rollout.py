@@ -6,7 +6,6 @@ NUM_DICE = 6
 NUM_SIDES = 6
 TARGET_FACE_VALUE = 6 
 DEFAULT_TRIALS = 1000000
-SEED = None
 
 @njit
 def rollout():
@@ -26,15 +25,12 @@ def rollout():
 
 @njit(parallel=True)
 def monte_carlo(trials=DEFAULT_TRIALS):
-    total_rolls = 0
-    for _ in prange(trials):
-        total_rolls += rollout()
-    average_rolls = total_rolls / trials
-    return average_rolls
+    totals = np.zeros(trials, dtype=np.int32)
+    for i in prange(trials):
+        totals[i] = rollout()
+    return totals.sum() / trials
 
 if __name__ == "__main__":
-    if SEED is not None:
-        np.random.seed(SEED)
     
     start_time = time.time()
     average = monte_carlo()
