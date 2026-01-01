@@ -10,18 +10,18 @@ NUM_TRIALS = 1000000
 @njit
 def rollout():
     non_goal_remaining = NUM_DICE
-    rolls = 0
+    rounds = 0
 
     while non_goal_remaining > 0:
         successes = 0
         for _ in range(non_goal_remaining):
             roll = np.random.randint(1, NUM_SIDES + 1)
-            rolls += 1
             if roll == TARGET_FACE_VALUE:
                 successes += 1
+        rounds += 1
         non_goal_remaining -= successes
 
-    return rolls
+    return rounds
 
 @njit(parallel=True)
 def monte_carlo(trials):
@@ -38,4 +38,4 @@ if __name__ == "__main__":
     average = monte_carlo(NUM_TRIALS)
     elapsed_time = time.time() - start_time
     
-    print(f"Average of {average} rolls ({NUM_TRIALS} trials, {elapsed_time:.4f} sec)")
+    print(f"Average of {average} rounds ({NUM_TRIALS} trials, {elapsed_time:.4f} sec)")
