@@ -1,4 +1,4 @@
-from random import randint
+import numpy as np
 
 NUM_DICE = 6
 NUM_SIDES = 6
@@ -12,7 +12,7 @@ def rollout():
     while non_goal_remaining > 0:
         successes = 0
         for _ in range(non_goal_remaining):
-            roll = randint(1, NUM_SIDES)
+            roll = np.random.randint(1, NUM_SIDES + 1)
             rolls += 1
             if roll == TARGET_FACE_VALUE:
                 successes += 1
